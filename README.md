@@ -42,6 +42,16 @@ Now we want to filter out anything else that doesn't look like a domain. Some of
 Now we just need to dedupe and remove some common top level domains that are not malicious but are there because they are in some lists that include malicious URLs. To dedupe, we use `sort -u` and then a final inverted match `grep` to whitelist a handful of safe TLDs:
 
 ```bash
+cat > whitelist.txt <<<EOF
+google-analytics.com
+redirectme.net
+bbc.co
+dartsearch.net
+ru.com
+EOF
+```
+
+```bash
 ... | sort -u \
 | grep -vwFf whitelist.txt \
 > baddomains.txt
