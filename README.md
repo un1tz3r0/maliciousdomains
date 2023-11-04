@@ -17,10 +17,10 @@ Now, this is wonderful and nicely readable especially with a markdown processor.
 ... | sed -ne 's/\[.*\.raw\]://p'
 ```
 
-This gets all of the .raw links out of the markup, which we will want to loop through and download, which can be accomplished by piping that output to `xargs` invoking `wget` on each:
+This gets all of the .raw links out of the markup, which we will want to loop through and download, which can be accomplished by piping that output to `wget` with URLs read from stdin:
 
 ```bash
-... | xargs wget --timeout 3 --tries 2 -O -
+... | wget -i /dev/stdin --timeout 3 --tries 2 -O -
 ```
 
 This will try and grab each url piped to it, limiting connection attempts to 3s before trying again, and if the second attempt fails, it will skip that URL and move on to the next, which is helpful to avoid getting stuck waiting for an unresponsive or DDOSed server (this happens with sites hosting these lists often).
